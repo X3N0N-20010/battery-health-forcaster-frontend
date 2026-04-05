@@ -15,8 +15,9 @@ const stagger = {
 // ---- Easily add more plots in the future by adding to this array ----
 const PERFORMANCE_PLOTS = [
   "/plot1.png",
-  "/plot2.png",
   "/plot3.png",
+  "/plot2.png",
+
 ];
 
 // ---- Dataset/Database Config ----
@@ -93,11 +94,7 @@ export default function LandingPage() {
   };
 
   const handleRun = () => {
-    if (!file) {
-      alert("Please upload a CSV file before continuing.");
-      return;
-    }
-    // Navigate to dashboard and pass the file, architecture, and dataset via state
+    // Navigate to dashboard and pass the file (if any), architecture, and dataset via state
     navigate("/dashboard", { 
       state: { 
         file: file, 
@@ -168,15 +165,16 @@ export default function LandingPage() {
           initial={{ opacity: 0, x: 60 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, delay: 0.4, ease: "easeOut" }}
-          style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "16px", width: "100%", maxWidth: "540px" }}
+          style={{ 
+            display: "flex", 
+            flexDirection: "row", // Changed to row for side-by-side
+            alignItems: "center", 
+            gap: "24px", 
+            width: "100%", 
+            maxWidth: "680px" // Increased to fit both side-by-side 
+          }}
         >
-          <img 
-            src="/bhai-logo.png" 
-            alt="BHAI Indicator" 
-            style={{ width: "160px", objectFit: "contain", mixBlendMode: "multiply", filter: "drop-shadow(0px 4px 8px rgba(0,0,0,0.05))" }} 
-          />
-
-          {/* Seamless Infinite Horizontal Carousel */}
+          {/* Seamless Infinite Horizontal Carousel FIRST */}
           <div className="plots-carousel-wrapper">
             <div className="plots-track">
               {carouselItems.map((plot, idx) => (
@@ -184,6 +182,19 @@ export default function LandingPage() {
               ))}
             </div>
           </div>
+
+          {/* BHAI Logo SECOND (Right side) */}
+          <img 
+            src="/bhai-logo.png" 
+            alt="BHAI Indicator" 
+            style={{ 
+              width: "130px", 
+              flexShrink: 0, // Prevents logo from getting squished by the plots
+              objectFit: "contain", 
+              mixBlendMode: "multiply", 
+              filter: "drop-shadow(0px 4px 8px rgba(0,0,0,0.05))" 
+            }} 
+          />
         </motion.div>
       </section>
 
@@ -285,7 +296,7 @@ export default function LandingPage() {
               <p className="action-desc">{selectedDataset.description}</p>
 
               <div className="action-form">
-                <label className="action-label">Upload CSV Data</label>
+                <label className="action-label">Upload CSV Data (Optional)</label>
                 <input type="file" accept=".csv" onChange={handleFileChange} className="action-input file-input" />
 
                 <label className="action-label">Select Model Architecture</label>
@@ -349,7 +360,7 @@ export default function LandingPage() {
           background: linear-gradient(135deg, #EBE0E4 0%, #FAFAFA 100%); 
           border-bottom: 1px solid rgba(138, 43, 73, 0.1); 
           position: relative; overflow: hidden;
-          gap: 60px;
+          gap: 40px; /* Reduced from 60px to give more room for side-by-side layout */
         }
         .hero-bg-glow {
           position: absolute; top: -200px; left: -200px;
@@ -357,7 +368,11 @@ export default function LandingPage() {
           background: radial-gradient(circle, rgba(138, 43, 73, 0.05) 0%, transparent 60%);
           pointer-events: none;
         }
-        .hero-content { max-width: 650px; z-index: 1; }
+        .hero-content { 
+          max-width: 480px; /* Reduced from 650px to make room for side-by-side right side */
+          z-index: 1; 
+          flex-shrink: 0;
+        }
 
         .hero-title {
           font-size: clamp(2.2rem, 5vw, 4rem);
@@ -397,7 +412,8 @@ export default function LandingPage() {
 
         /* ----- PLOTS CAROUSEL ----- */
         .plots-carousel-wrapper {
-          width: 100%;
+          flex: 1; /* Takes up remaining space in row flex layout */
+          min-width: 0; /* Prevents overflow breaking layout */
           overflow: hidden;
           position: relative;
           padding: 20px 0;
