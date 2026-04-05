@@ -1,4 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "../components/Navbar";
 import MetricsCards from "../components/MetricsCards";
@@ -169,12 +170,12 @@ function FileUploadZone({ onFile, file }) {
   );
 }
 
-function QuickGuide() {
+function QuickGuide({ architecture }) {
   return (
     <div className="dash-section guide-panel">
       <div className="guide-header">
         <span className="guide-icon">📖</span>
-        <h2 className="section-heading" style={{ marginBottom: 0 }}>Quick Start Guide</h2>
+        <h2 className="section-heading" style={{ marginBottom: 0 }}>Quick Start Guide ({architecture})</h2>
       </div>
       
       <div className="guide-grid">
@@ -187,124 +188,40 @@ function QuickGuide() {
             <p><strong>Auxiliary Cols:</strong> <code>global_cycle</code>, <code>discharge_time</code>, <code>discharge_energy_cycle</code>, <code>avg_voltage_discharge</code></p>
             <p><strong>Target Col:</strong> <code>soh_clean</code> <span className="text-muted">(or <code>soh</code>)</span></p>
           </div>
-          
-          <div className="table-wrap mini-table">
-            <table className="data-table">
-              <thead>
-                <tr>
-                  <th>global_cycle</th>
-                  <th>cycle_elapsed_time_sec</th>
-                  <th>current(a)</th>
-                  <th>voltage(v)</th>
-                  <th>dv/dt(v/s)</th>
-                  <th>internal_resistance(ohm)</th>
-                  <th>discharge_time</th>
-                  <th>discharge_energy_cycle</th>
-                  <th>avg_voltage_discharge</th>
-                  <th>soh_clean</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>10.5</td>
-                  <td>-1.502</td>
-                  <td>4.125</td>
-                  <td>-0.0026</td>
-                  <td>0.045</td>
-                  <td>3540.2</td>
-                  <td>12.85</td>
-                  <td>3.82</td>
-                  <td>1.000</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>20.5</td>
-                  <td>-1.501</td>
-                  <td>4.098</td>
-                  <td>-0.0027</td>
-                  <td>0.046</td>
-                  <td>3540.2</td>
-                  <td>12.85</td>
-                  <td>3.82</td>
-                  <td>1.000</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
         </div>
 
         {/* Usage Steps */}
         <div className="guide-card">
           <h4 className="guide-title">2. Usage Steps</h4>
           <ul className="guide-steps">
-            <li>
-              <span className="step-badge">1</span>
-              <div><strong>Upload CSV:</strong> Drop your cycle data file below.</div>
-            </li>
-            <li>
-              <span className="step-badge">2</span>
-              <div><strong>Select Model:</strong> Choose a configuration (e.g., 64-in).</div>
-            </li>
-            <li>
-              <span className="step-badge">3</span>
-              <div><strong>Run Predict:</strong> Click the forecast button to process.</div>
-            </li>
-            <li>
-              <span className="step-badge">4</span>
-              <div><strong>View Results:</strong> Explore graphs, KPIs, and export data.</div>
-            </li>
+            <li><span className="step-badge">1</span><div><strong>Upload CSV:</strong> Drop your cycle data file below.</div></li>
+            <li><span className="step-badge">2</span><div><strong>Set Config:</strong> Choose window size (e.g., 64-in).</div></li>
+            <li><span className="step-badge">3</span><div><strong>Run Predict:</strong> Click the forecast button to process.</div></li>
+            <li><span className="step-badge">4</span><div><strong>View Results:</strong> Explore graphs, KPIs, and export data.</div></li>
           </ul>
         </div>
-
-        {/* Definitions */}
-        <div className="guide-card">
-          <h4 className="guide-title">3. Understanding Results</h4>
-          <div className="guide-defs">
-            <div className="def-item">
-              <strong>SOH (State of Health)</strong>
-              <p>Current functional capacity compared to new condition (typically decays from 100% to ~80%).</p>
-            </div>
-            <div className="def-item">
-              <strong>RUL (Remaining Useful Life)</strong>
-              <p>Estimated number of cycles until SOH hits your specified failure threshold.</p>
-            </div>
-            <div className="def-item">
-              <strong>Forecast Graph</strong>
-              <p>Displays historical SOH, future stitched degradation trend, and real ±1σ confidence bands.</p>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
   );
 }
 
 export default function Dashboard() {
-  const [file,          setFile]          = useState(null);
+  const location = useLocation();
+
+  // Architecture passed from Landing Page, defaults to CNN-GRU_attn
+  const architecture = location.state?.architecture || "CNN-GRU_attn";
+
+  const [file,          setFile]          = useState(location.state?.file || null);
   const [preview,       setPreview]       = useState(null);
   const [threshold,     setThreshold]     = useState(0.80);
   const [loading,       setLoading]       = useState(false);
   const [error,         setError]         = useState(null);
   const [result,        setResult]        = useState(null);
   const [activeTab,     setActiveTab]     = useState("forecast");
-  const [models,        setModels]        = useState([]);
-  const [selectedModel, setSelectedModel] = useState("");
+  const [configs,       setConfigs]       = useState([]);
+  const [selectedConfig, setSelectedConfig] = useState("");
 
-  useEffect(() => {
-    fetch(`${API_BASE}/api/models`)
-      .then(res => res.json())
-      .then(data => {
-        if (data.models && data.models.length > 0) {
-          setModels(data.models);
-          setSelectedModel(data.models[0]);
-        }
-      })
-      .catch(err => console.error("Failed to fetch models", err));
-  }, []);
-
-  const handleFile = f => {
+  const handleFile = useCallback(f => {
     setFile(f); setResult(null); setError(null);
     const reader = new FileReader();
     reader.onload = e => {
@@ -312,15 +229,43 @@ export default function Dashboard() {
       setPreview(lines.map(l => l.split(",")));
     };
     reader.readAsText(f);
-  };
+  }, []);
+
+  // Read initial file if passed from Landing Page
+  useEffect(() => {
+    if (location.state?.file && !preview) {
+      handleFile(location.state.file);
+    }
+  }, [location.state, handleFile, preview]);
+
+  // Fetch Configurations (Previously 'Models')
+  useEffect(() => {
+    fetch(`${API_BASE}/api/models`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.models && data.models.length > 0) {
+          setConfigs(data.models);
+          setSelectedConfig(data.models[0]);
+        }
+      })
+      .catch(err => {
+        console.error("Failed to fetch config list. Using defaults.", err);
+        // Fallback configurations just in case the backend is down
+        const fallbacks = ["64-in", "48-in"];
+        setConfigs(fallbacks);
+        setSelectedConfig(fallbacks[0]);
+      });
+  }, []);
 
   const handleRun = async () => {
-    if (!file || !selectedModel) return;
+    if (!file || !selectedConfig) return;
     setLoading(true); setError(null); setResult(null);
 
     const form = new FormData();
     form.append("file", file);
-    form.append("config_name", selectedModel);
+    // IMPORTANT: Send both Architecture AND Configuration to backend
+    form.append("architecture", architecture);
+    form.append("config_name", selectedConfig); 
     form.append("threshold", threshold);
 
     try {
@@ -350,14 +295,14 @@ export default function Dashboard() {
       <div className="dash-body">
 
         <motion.div variants={fadeUp} initial="hidden" animate="show">
-          <QuickGuide />
+          <QuickGuide architecture={architecture} />
         </motion.div>
 
         <motion.section
           className="dash-section"
           variants={fadeUp} initial="hidden" animate="show"
         >
-          <h2 className="section-heading">1 · Upload Battery Data</h2>
+          <h2 className="section-heading">1 · Upload Battery Data ({architecture})</h2>
 
           <FileUploadZone onFile={handleFile} file={file} />
 
@@ -385,19 +330,19 @@ export default function Dashboard() {
 
           <div className="controls-row">
             <label className="thresh-label">
-              Model:
+              Configuration:
               <select
-                value={selectedModel}
-                onChange={e => setSelectedModel(e.target.value)}
+                value={selectedConfig}
+                onChange={e => setSelectedConfig(e.target.value)}
                 className="thresh-input"
                 style={{ width: "auto", minWidth: "220px" }}
               >
-                {models.length > 0 ? (
-                  models.map(m => (
+                {configs.length > 0 ? (
+                  configs.map(m => (
                     <option key={m} value={m}>{m}</option>
                   ))
                 ) : (
-                  <option value="">Loading models...</option>
+                  <option value="">Loading configs...</option>
                 )}
               </select>
             </label>
@@ -416,7 +361,7 @@ export default function Dashboard() {
             <button
               className={`run-btn${loading ? " loading" : ""}${!file ? " disabled" : ""}`}
               onClick={handleRun}
-              disabled={!file || loading || !selectedModel}
+              disabled={!file || loading || !selectedConfig}
             >
               {loading ? (
                 <><span className="spinner" />Running Inference…</>
@@ -484,7 +429,8 @@ export default function Dashboard() {
                   {activeTab === "metrics" && (
                     <motion.div key="mt" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                       <div className="metrics-detail">
-                        <p><span>Model</span><span>{selectedModel}</span></p>
+                        <p><span>Architecture</span><span>{architecture}</span></p>
+                        <p><span>Configuration</span><span>{selectedConfig}</span></p>
                         <p><span>Observed Cycles</span><span>{result.historical_soh.length}</span></p>
                         <p><span>Forecast Cycles</span><span>{result.metrics.n_forecast}</span></p>
                         <p><span>Failure Detected</span><span style={{ color: result.metrics.failed ? "#D32F2F" : "#2E7D32" }}>{result.metrics.failed ? "YES ⚠️" : "NO ✅"}</span></p>
@@ -492,7 +438,6 @@ export default function Dashboard() {
                         <p><span>Min Forecast SOH</span><span>{(result.metrics.min_forecast_soh * 100).toFixed(4)}%</span></p>
                         <p><span>Degradation Rate</span><span>{(result.metrics.degradation_rate * 100).toFixed(6)}%/cycle</span></p>
                         <p><span>RUL</span><span>{result.metrics.remaining_life ?? "Beyond forecast window"}</span></p>
-                        <p><span>Windows Inferred</span><span>{result.n_windows}</span></p>
                       </div>
                     </motion.div>
                   )}
@@ -520,7 +465,7 @@ export default function Dashboard() {
 
         .dash-root {
           min-height: 100vh;
-          background: #F8F9FA; /* Base Background Light Gray */
+          background: #F8F9FA; 
           color: #1A1A1C;
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         }
@@ -532,7 +477,7 @@ export default function Dashboard() {
         }
 
         .dash-section {
-          background: #FFFFFF; /* Surface / Card */
+          background: #FFFFFF; 
           border: 1px solid #EAEAEA; 
           border-radius: 12px;
           padding: 36px;
@@ -567,7 +512,7 @@ export default function Dashboard() {
           box-shadow: 0 2px 10px rgba(0,0,0,0.02);
         }
         .guide-title { 
-          font-size: 1rem; font-weight: 600; color: #FF4B4B; 
+          font-size: 1rem; font-weight: 600; color: #8A2B49; 
           margin-bottom: 16px; letter-spacing: -0.2px;
         }
         
@@ -575,7 +520,7 @@ export default function Dashboard() {
         .text-muted { color: #888888; font-size: 0.85rem; }
         code { 
           background: #F1F3F5; 
-          color: #FF4B4B; 
+          color: #8A2B49; 
           padding: 3px 6px; 
           border-radius: 4px; 
           font-size: 0.8rem; 
@@ -588,9 +533,6 @@ export default function Dashboard() {
           line-height: 1.4;
         }
         
-        .mini-table { margin-top: 16px; border-radius: 6px; }
-        .mini-table th, .mini-table td { padding: 8px 12px; font-size: 0.75rem; }
-        
         .guide-steps { list-style: none; display: flex; flex-direction: column; gap: 14px; }
         .guide-steps li { 
           display: flex; align-items: flex-start; gap: 12px; 
@@ -601,15 +543,9 @@ export default function Dashboard() {
           flex-shrink: 0;
           display: flex; align-items: center; justify-content: center;
           width: 20px; height: 20px; border-radius: 50%;
-          background: #FF4B4B; color: #FFFFFF; 
+          background: #8A2B49; color: #FFFFFF; 
           font-size: 0.75rem; font-weight: 700;
         }
-
-        .guide-defs { display: flex; flex-direction: column; gap: 16px; }
-        .def-item strong { display: block; font-size: 0.9rem; color: #1A1A1C; margin-bottom: 4px; }
-        .def-item p { font-size: 0.85rem; color: #666666; line-height: 1.5; }
-        /* -------------------------------------- */
-
 
         /* Upload */
         .upload-zone {
@@ -619,12 +555,12 @@ export default function Dashboard() {
           transition: all 0.2s; background: #FAFAFA;
         }
         .upload-zone:hover, .upload-zone.drag-over {
-          border-color: #FF4B4B;
-          background: #FFF0F0;
+          border-color: #8A2B49;
+          background: #F9F0F3;
         }
         .upload-icon  { font-size: 2.4rem; margin-bottom: 12px; }
         .upload-hint  { font-size: 1rem; color: #666666; }
-        .upload-link  { color: #FF4B4B; font-weight: 600; text-decoration: none;}
+        .upload-link  { color: #8A2B49; font-weight: 600; text-decoration: none;}
         .upload-filename { color: #1A1A1C; font-weight: 600; font-size: 1rem; margin-bottom: 4px; }
         .upload-sub   { font-size: 0.8rem; color: #888888; margin-top: 8px; }
 
@@ -650,21 +586,21 @@ export default function Dashboard() {
           transition: border-color 0.2s, box-shadow 0.2s;
         }
         .thresh-input:focus { 
-          border-color: #FF4B4B; 
-          box-shadow: 0 0 0 3px rgba(255, 75, 75, 0.15); 
+          border-color: #8A2B49; 
+          box-shadow: 0 0 0 3px rgba(138, 43, 73, 0.15); 
         }
-        .thresh-pct { color: #FF4B4B; font-weight: 700; }
+        .thresh-pct { color: #8A2B49; font-weight: 700; }
 
         .run-btn {
           margin-left: auto;
           padding: 12px 28px; border-radius: 8px;
-          background: #FF4B4B; 
+          background: #8A2B49; 
           color: #FFFFFF; font-size: 0.95rem; font-weight: 600;
           border: none; cursor: pointer;
           display: inline-flex; align-items: center; gap: 10px;
           transition: background 0.2s, transform 0.1s;
         }
-        .run-btn:hover { background: #E63E3E; }
+        .run-btn:hover { background: #6D223C; }
         .run-btn:active { transform: scale(0.98); }
         .run-btn.loading, .run-btn.disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
@@ -717,7 +653,7 @@ export default function Dashboard() {
         }
         .tab-btn:hover { color: #1A1A1C; background: #F8F9FA; }
         .tab-btn.tab-active {
-          color: #FF4B4B; border-bottom: 2px solid #FF4B4B;
+          color: #8A2B49; border-bottom: 2px solid #8A2B49;
         }
         .tab-content { min-height: 300px; }
 
@@ -762,12 +698,12 @@ export default function Dashboard() {
         /* Export */
         .export-btn {
           padding: 12px 24px; border-radius: 8px;
-          background: #FF4B4B;
+          background: #8A2B49;
           color: #FFFFFF; font-size: 0.95rem; font-weight: 600;
           border: none; cursor: pointer; transition: background 0.2s, transform 0.1s;
           display: inline-block;
         }
-        .export-btn:hover { background: #E63E3E; }
+        .export-btn:hover { background: #6D223C; }
         .export-btn:active { transform: scale(0.98); }
         .export-btn.ghost {
           background: transparent;

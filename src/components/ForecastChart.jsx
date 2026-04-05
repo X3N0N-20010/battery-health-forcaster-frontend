@@ -28,12 +28,12 @@ const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
   return (
     <div style={{
-      background: "#FFFFFF", /* Clean White Surface */
+      background: "#FFFFFF",
       border: "1px solid #EAEAEA",
       borderRadius: 8, 
       padding: "12px 16px", 
       fontSize: 13,
-      boxShadow: "0px 8px 24px rgba(0, 0, 0, 0.1)" /* Soft Shadow */
+      boxShadow: "0px 8px 24px rgba(0, 0, 0, 0.1)" 
     }}>
       <p style={{ color: "#666666", marginBottom: 6, fontWeight: 600 }}>Cycle {label}</p>
       {payload.map(p => (
@@ -78,7 +78,7 @@ export default function ForecastChart({ data, threshold }) {
           <Area
             dataKey="confBand"
             name="±1σ Confidence"
-            fill="rgba(255, 75, 75, 0.1)" /* Light primary color fill */
+            fill="rgba(0, 106, 128, 0.1)" /* Teal transparent fill */
             stroke="none"
             connectNulls={false}
             legendType="none"
@@ -86,13 +86,12 @@ export default function ForecastChart({ data, threshold }) {
 
           <ReferenceLine
             y={threshPct}
-            stroke="#D32F2F" /* Vibrant Danger */
+            stroke="#D32F2F" /* Kept Vibrant Danger Red for Threshold */
             strokeDasharray="6 3"
             strokeWidth={1.5}
             label={{ value: `Threshold ${threshPct}%`, fill: "#D32F2F", fontSize: 11, fontWeight: 600, position: "insideTopRight" }}
           />
 
-          {/* Historical SOH - Deep Charcoal */}
           <Line
             dataKey="historical"
             name="Historical SOH"
@@ -102,11 +101,10 @@ export default function ForecastChart({ data, threshold }) {
             connectNulls={false}
           />
 
-          {/* Predicted SOH - Vibrant Coral/Red */}
           <Line
             dataKey="predicted"
             name="Predicted SOH"
-            stroke="#FF4B4B"
+            stroke="#006A80" /* Deep Teal */
             strokeWidth={2.5}
             dot={false}
             strokeDasharray="5 3"

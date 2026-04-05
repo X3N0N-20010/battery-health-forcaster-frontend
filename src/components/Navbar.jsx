@@ -12,20 +12,13 @@ export default function Navbar() {
   return (
     <>
       <nav className="navbar">
-        <div className="nb-left">
-          <img
-            src="/college_logo.png"
-            alt="College Logo"
-            className="nb-logo"
-            onError={e => { e.target.style.display = "none"; }}
-          />
-          <span 
-            className="nb-brand" 
-            onClick={() => navigate("/")} 
-            style={{ cursor: "pointer" }}
-          >
-            ⚡ Battery Health Forecaster
-          </span>
+        <div 
+          className="nb-left" 
+          onClick={() => navigate("/")} 
+          style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: "16px" }}
+        >
+          <img src="/anrf-logo.jpeg" alt="ANRF" style={{ height: "36px" }} />
+          <img src="/iit-bhu-logo.jpeg" alt="IIT BHU" style={{ height: "36px" }} />
         </div>
         <div className="nb-links">
           {links.map(l => (
@@ -50,19 +43,10 @@ export default function Navbar() {
           justify-content: space-between;
           padding: 0 40px; 
           height: 64px;
-          background: #FF4B4B;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-          box-shadow: 0 2px 12px rgba(0,0,0,0.05);
-        }
-        
-        .nb-left { display: flex; align-items: center; gap: 12px; }
-        .nb-logo { height: 32px; filter: brightness(0) invert(1); object-fit: contain; }
-        
-        .nb-brand { 
-          font-size: 1.1rem; 
-          font-weight: 700; 
-          color: #FFFFFF;
-          letter-spacing: -0.2px; 
+          background: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(10px);
+          border-bottom: 1px solid #EAEAEA;
+          box-shadow: 0 2px 12px rgba(0,0,0,0.02);
         }
         
         .nb-links { display: flex; gap: 6px; }
@@ -72,7 +56,7 @@ export default function Navbar() {
           border-radius: 6px;
           background: transparent; 
           border: none;
-          color: rgba(255, 255, 255, 0.8);
+          color: #4A5568; /* Slate gray text */
           font-size: 0.9rem; 
           font-weight: 600;
           cursor: pointer;
@@ -80,13 +64,13 @@ export default function Navbar() {
         }
         
         .nb-link:hover { 
-          color: #FF4B4B; 
-          background: #FFFFFF;
+          color: #8A2B49; 
+          background: #F9F0F3;
         }
         
         .nb-link.active { 
-          color: #FF4B4B;
-          background: #FFFFFF; 
+          color: #8A2B49;
+          background: #F9F0F3; 
         }
       `}</style>
     </>
