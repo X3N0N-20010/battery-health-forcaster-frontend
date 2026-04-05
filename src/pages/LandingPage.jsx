@@ -112,14 +112,14 @@ export default function LandingPage() {
           transition={{ duration: 1, delay: 0.4, ease: "easeOut" }}
         >
           <svg viewBox="0 0 200 320" fill="none" xmlns="http://www.w3.org/2000/svg" className="battery-svg">
-            <rect x="60" y="20" width="80" height="16" rx="4" fill="#444449" />
-            <rect x="20" y="44" width="160" height="256" rx="12" fill="#303034" stroke="#444449" strokeWidth="4" />
-            <rect x="34" y="58" width="132" height="50" rx="6" fill="rgba(124, 152, 182, 0.15)" />
-            <rect x="34" y="116" width="132" height="50" rx="6" fill="rgba(124, 152, 182, 0.3)" />
-            <rect x="34" y="174" width="132" height="50" rx="6" fill="rgba(124, 152, 182, 0.6)" />
-            <rect x="34" y="232" width="132" height="50" rx="6" fill="#7C98B6" />
-            <text x="100" y="265" textAnchor="middle" fill="#1A1A1C" fontSize="22" fontWeight="bold">87%</text>
-            <text x="100" y="283" textAnchor="middle" fill="#28282B" fontSize="10" fontWeight="600">SOH</text>
+            <rect x="60" y="20" width="80" height="16" rx="4" fill="#FFFFFF" opacity="0.6" />
+            <rect x="20" y="44" width="160" height="256" rx="12" fill="#FFFFFF" stroke="#EAEAEA" strokeWidth="4" />
+            <rect x="34" y="58" width="132" height="50" rx="6" fill="rgba(255, 75, 75, 0.1)" />
+            <rect x="34" y="116" width="132" height="50" rx="6" fill="rgba(255, 75, 75, 0.25)" />
+            <rect x="34" y="174" width="132" height="50" rx="6" fill="rgba(255, 75, 75, 0.5)" />
+            <rect x="34" y="232" width="132" height="50" rx="6" fill="#FF4B4B" />
+            <text x="100" y="265" textAnchor="middle" fill="#FFFFFF" fontSize="22" fontWeight="bold">87%</text>
+            <text x="100" y="283" textAnchor="middle" fill="#FFFFFF" opacity="0.9" fontSize="10" fontWeight="600">SOH</text>
           </svg>
         </motion.div>
 
@@ -214,7 +214,7 @@ export default function LandingPage() {
                 key={f.title}
                 variants={fadeUp}
                 className="feature-card"
-                whileHover={{ y: -4, boxShadow: "0px 12px 28px rgba(15, 15, 18, 0.3)" }}
+                whileHover={{ y: -4, boxShadow: "0px 12px 28px rgba(0, 0, 0, 0.08)" }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
                 <div className="feat-icon">{f.icon}</div>
@@ -250,8 +250,8 @@ export default function LandingPage() {
 
         .landing-root {
           min-height: 100vh;
-          background: #28282B;
-          color: #E4E4E2;
+          background: #FFFFFF;
+          color: #1A1A1C;
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
@@ -259,33 +259,33 @@ export default function LandingPage() {
           position: fixed; top: 0; left: 0; right: 0; z-index: 100;
           display: flex; justify-content: space-between; align-items: center;
           padding: 16px 48px;
-          background: rgba(48, 48, 52, 0.75);
-          backdrop-filter: blur(12px);
-          border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+          background: #FF4B4B;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
         .nav-brand {
           font-size: 1.1rem; font-weight: 600; letter-spacing: -0.2px;
-          color: #E4E4E2;
+          color: #FFFFFF;
         }
         .nav-btn {
           padding: 8px 20px; border-radius: 6px;
-          background: transparent; border: 1px solid #444449;
-          color: #E4E4E2; font-size: 0.85rem; font-weight: 500; cursor: pointer;
+          background: transparent; border: 1px solid rgba(255,255,255,0.6);
+          color: #FFFFFF; font-size: 0.85rem; font-weight: 600; cursor: pointer;
           transition: all 0.2s ease;
         }
-        .nav-btn:hover { background: #38383D; border-color: #525258; }
+        .nav-btn:hover { background: #FFFFFF; color: #FF4B4B; border-color: #FFFFFF; }
 
         .hero-section {
           min-height: 100vh;
           display: flex; align-items: center; justify-content: center;
           padding: 100px 48px 80px;
+          background: #FF4B4B;
           position: relative; overflow: hidden;
           gap: 60px;
         }
         .hero-bg-glow {
           position: absolute; top: -200px; left: -200px;
           width: 800px; height: 800px; border-radius: 50%;
-          background: radial-gradient(circle, rgba(124, 152, 182, 0.05) 0%, transparent 60%);
+          background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 60%);
           pointer-events: none;
         }
         .hero-content { max-width: 650px; z-index: 1; }
@@ -293,61 +293,61 @@ export default function LandingPage() {
         .hero-badge {
           display: inline-flex; align-items: center; gap: 16px;
           padding: 10px 18px; border-radius: 8px;
-          background: rgba(124, 152, 182, 0.08);
-          border: 1px solid rgba(124, 152, 182, 0.2);
+          background: rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.25);
           margin-bottom: 32px;
         }
         .institute-logo {
           height: 38px;
           object-fit: contain;
-          filter: grayscale(1) opacity(0.9);
+          filter: brightness(0) invert(1);
         }
         .badge-text {
           display: flex; flex-direction: column; justify-content: center;
         }
-        .badge-proj { font-size: 0.7rem; letter-spacing: 0.5px; text-transform: uppercase; color: #A8A8AA; font-weight: 500; margin-bottom: 2px;}
-        .badge-inst { font-size: 0.85rem; color: #7C98B6; font-weight: 600; }
+        .badge-proj { font-size: 0.7rem; letter-spacing: 0.5px; text-transform: uppercase; color: rgba(255,255,255,0.8); font-weight: 600; margin-bottom: 2px;}
+        .badge-inst { font-size: 0.85rem; color: #FFFFFF; font-weight: 600; }
 
         .hero-title {
           font-size: clamp(2.2rem, 5vw, 3.8rem);
-          font-weight: 600; line-height: 1.1;
+          font-weight: 700; line-height: 1.1;
           letter-spacing: -1.5px; margin-bottom: 24px;
-          color: #E4E4E2;
+          color: #FFFFFF;
         }
         .hero-accent { 
-          color: #E4E4E2; 
-          border-bottom: 3px solid #7C98B6;
+          color: #FFFFFF; 
+          border-bottom: 3px solid rgba(255,255,255,0.8);
         }
         
         .intro-block {
           margin-bottom: 36px;
           padding-left: 16px;
-          border-left: 3px solid #444449;
+          border-left: 3px solid rgba(255,255,255,0.5);
         }
         .hero-sub {
-          font-size: 1.05rem; line-height: 1.7; color: #A8A8AA;
+          font-size: 1.05rem; line-height: 1.7; color: rgba(255,255,255,0.9);
         }
-        .hero-sub strong { color: #E4E4E2; font-weight: 600; }
+        .hero-sub strong { color: #FFFFFF; font-weight: 700; }
 
         .cta-btn {
           padding: 14px 36px; border-radius: 8px;
-          background: #7C98B6;
-          color: #1A1A1C; font-size: 1rem; font-weight: 600;
+          background: #FFFFFF;
+          color: #FF4B4B; font-size: 1rem; font-weight: 600;
           border: none; cursor: pointer;
           display: inline-flex; align-items: center; gap: 10px;
-          transition: background 0.2s, transform 0.1s;
+          transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
         }
-        .cta-btn:hover { background: #8BA8C7; }
-        .cta-btn:active { background: #6E88A3; transform: scale(0.98); }
+        .cta-btn:hover { background: #F8F9FA; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .cta-btn:active { transform: scale(0.98); }
         .cta-arrow { font-size: 1.1rem; }
         
         .hero-graphic { z-index: 1; }
-        .battery-svg { width: 160px; filter: drop-shadow(0px 8px 24px rgba(15, 15, 18, 0.3)); }
+        .battery-svg { width: 160px; filter: drop-shadow(0px 12px 24px rgba(0, 0, 0, 0.15)); }
 
         /* SIMPLE SCROLL INDICATOR */
         .scroll-indicator {
           position: absolute;
-          bottom: 15%; /* Raised up into the middle void */
+          bottom: 10%;
           left: 50%;
           transform: translateX(-50%);
           display: flex;
@@ -356,7 +356,7 @@ export default function LandingPage() {
           gap: 6px;
           cursor: pointer;
           z-index: 10;
-          opacity: 0.85;
+          opacity: 0.9;
           transition: opacity 0.3s ease;
         }
         .scroll-indicator:hover {
@@ -368,23 +368,20 @@ export default function LandingPage() {
           letter-spacing: 2px;
           font-weight: 700;
           color: #FFFFFF;
-          text-shadow: 0 2px 8px rgba(0,0,0,0.5);
         }
         .scroll-arrow {
           font-size: 1.6rem;
-          color: #7C98B6;
+          color: #FFFFFF;
           line-height: 1;
-          filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
         }
 
-        .about-section, .features-section { padding: 90px 48px; }
-        .about-section { background: #28282B; }
-        .about-section.alt-bg { background: #303034; }
+        .about-section, .features-section { padding: 90px 48px; background: #FFFFFF; }
+        .about-section.alt-bg { background: #F8F9FA; }
         
         .section-inner { max-width: 1100px; margin: 0 auto; }
         .section-title {
-          font-size: 2rem; font-weight: 600; letter-spacing: -1px;
-          color: #E4E4E2; margin-bottom: 56px; text-align: center;
+          font-size: 2rem; font-weight: 700; letter-spacing: -1px;
+          color: #1A1A1C; margin-bottom: 56px; text-align: center;
         }
 
         .three-grid {
@@ -392,77 +389,82 @@ export default function LandingPage() {
           gap: 24px;
         }
         .simple-card {
-          background: #28282B;
-          border: 1px solid rgba(255, 255, 255, 0.03);
+          background: #FFFFFF;
+          border: 1px solid #EAEAEA;
           border-radius: 12px; 
           padding: 32px 24px;
           text-align: center;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.03);
         }
-        .alt-bg .simple-card { background: #303034; border-color: rgba(255, 255, 255, 0.05); }
+        .alt-bg .simple-card { box-shadow: 0 4px 12px rgba(0,0,0,0.02); }
         .card-icon { font-size: 2.2rem; margin-bottom: 16px; }
-        .card-title { font-size: 1.15rem; font-weight: 600; color: #E4E4E2; margin-bottom: 12px; }
-        .card-desc { font-size: 0.95rem; color: #A8A8AA; line-height: 1.6; }
+        .card-title { font-size: 1.15rem; font-weight: 600; color: #1A1A1C; margin-bottom: 12px; }
+        .card-desc { font-size: 0.95rem; color: #666666; line-height: 1.6; }
 
         .about-steps {
           display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
           gap: 24px;
         }
         .about-step {
-          background: #28282B;
-          border: 1px solid rgba(255, 255, 255, 0.03);
+          background: #FFFFFF;
+          border: 1px solid #EAEAEA;
           border-radius: 12px; 
           padding: 32px 24px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.02);
         }
         .step-num {
-          font-size: 2rem; font-weight: 700; color: #444449;
+          font-size: 2rem; font-weight: 700; color: #FF4B4B;
           margin-bottom: 16px; font-variant-numeric: tabular-nums;
         }
         .step-label {
-          font-size: 1.1rem; font-weight: 600; color: #E4E4E2;
+          font-size: 1.1rem; font-weight: 600; color: #1A1A1C;
           margin-bottom: 10px;
         }
-        .step-desc { font-size: 0.95rem; color: #A8A8AA; line-height: 1.6; }
+        .step-desc { font-size: 0.95rem; color: #666666; line-height: 1.6; }
 
         .features-grid {
           display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
           gap: 24px;
         }
         .feature-card {
-          background: #303034;
-          border: 1px solid rgba(255, 255, 255, 0.03);
+          background: #FFFFFF;
+          border: 1px solid #EAEAEA;
           border-radius: 12px;
           padding: 40px 32px;
           cursor: default;
-          box-shadow: 0px 8px 24px rgba(15, 15, 18, 0.2);
+          box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.04);
         }
         .feat-icon { font-size: 2rem; margin-bottom: 20px; opacity: 0.9;}
-        .feat-title { font-size: 1.1rem; font-weight: 600; color: #E4E4E2; margin-bottom: 12px; }
-        .feat-desc  { font-size: 0.95rem; color: #A8A8AA; line-height: 1.6; }
+        .feat-title { font-size: 1.1rem; font-weight: 600; color: #1A1A1C; margin-bottom: 12px; }
+        .feat-desc  { font-size: 0.95rem; color: #666666; line-height: 1.6; }
 
         .final-cta {
           padding: 80px 48px;
-          background: #303034;
+          background: #F8F9FA;
           text-align: center;
-          border-top: 1px solid rgba(255, 255, 255, 0.03);
+          border-top: 1px solid #EAEAEA;
         }
         .cta-heading {
-          font-size: 1.8rem; font-weight: 600; letter-spacing: -0.5px;
-          color: #E4E4E2; margin-bottom: 24px;
+          font-size: 1.8rem; font-weight: 700; letter-spacing: -0.5px;
+          color: #1A1A1C; margin-bottom: 24px;
         }
-        .primary-glow {
-          box-shadow: 0 0 24px rgba(124, 152, 182, 0.2);
+        .cta-btn.primary-glow {
+          background: #FF4B4B;
+          color: #FFFFFF;
+          box-shadow: 0 4px 16px rgba(255, 75, 75, 0.25);
         }
+        .cta-btn.primary-glow:hover { background: #E63E3E; box-shadow: 0 4px 12px rgba(255, 75, 75, 0.35); }
 
         .landing-footer {
-          background: #28282B;
-          border-top: 1px solid #444449;
+          background: #FFFFFF;
+          border-top: 1px solid #EAEAEA;
           padding: 48px;
           text-align: center;
         }
         .footer-inner { display: flex; flex-direction: column; gap: 8px; align-items: center; }
-        .footer-title { font-size: 0.95rem; font-weight: 600; color: #E4E4E2; }
-        .footer-sub   { font-size: 0.85rem; color: #A8A8AA; }
-        .footer-name  { font-size: 0.85rem; color: #7C98B6; font-weight: 500; }
+        .footer-title { font-size: 0.95rem; font-weight: 600; color: #1A1A1C; }
+        .footer-sub   { font-size: 0.85rem; color: #666666; }
+        .footer-name  { font-size: 0.85rem; color: #FF4B4B; font-weight: 600; }
 
         @media (max-width: 768px) {
           .hero-section  { flex-direction: column; padding: 100px 24px 60px; text-align: center; }

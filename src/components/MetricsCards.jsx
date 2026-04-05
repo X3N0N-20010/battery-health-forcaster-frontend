@@ -8,7 +8,7 @@ function KPICard({ icon, label, value, sub, highlight }) {
     <motion.div
       variants={fadeUp}
       className={`kpi-card${highlight ? " kpi-warn" : ""}`}
-      whileHover={{ y: -4 }}
+      whileHover={{ y: -4, boxShadow: "0px 8px 24px rgba(0,0,0,0.08)" }}
       transition={{ type: "spring", stiffness: 300 }}
     >
       <div className="kpi-icon">{icon}</div>
@@ -27,14 +27,14 @@ export default function MetricsCards({ metrics, threshold }) {
 
   const cards = [
     {
-      icon: "🔋",
+      icon: "📈",
       label: "Last Known SOH",
       value: `${(current_soh * 100).toFixed(2)}%`,
       sub: null,
       highlight: false,
     },
     {
-      icon: "📉",
+      icon: "🎯",
       label: "Min Forecast SOH",
       value: `${(min_forecast_soh * 100).toFixed(2)}%`,
       sub: `${((min_forecast_soh - threshold) * 100).toFixed(2)}% vs threshold`,
@@ -48,14 +48,14 @@ export default function MetricsCards({ metrics, threshold }) {
       highlight: remaining_life !== null && remaining_life < 20,
     },
     {
-      icon: "📊",
+      icon: "📉",
       label: "Degradation Rate",
       value: `${(degradation_rate * 100).toFixed(4)}%/cycle`,
       sub: `Over ${n_forecast} forecast cycles`,
       highlight: false,
     },
     {
-      icon: "🕐",
+      icon: "⚡",
       label: "Useful Life Used",
       value: `${useful_life_pct}%`,
       sub: "of forecast window",
@@ -74,19 +74,19 @@ export default function MetricsCards({ metrics, threshold }) {
           gap: 24px; /* Generous spacing */
         }
         .kpi-card {
-          background: #303034; /* Surface */
-          border: 1px solid rgba(255, 255, 255, 0.03); /* Glass edge */
+          background: #FFFFFF; /* Light Surface */
+          border: 1px solid #EAEAEA; /* Clean edge */
           border-radius: 12px; 
           padding: 24px;
           display: flex; 
           flex-direction: column; 
           gap: 6px;
           cursor: default;
-          box-shadow: 0px 8px 24px rgba(15, 15, 18, 0.2); /* Diffuse shadow */
+          box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.03); /* Diffuse shadow */
         }
         .kpi-card.kpi-warn {
-          border-color: rgba(191, 130, 134, 0.2); /* Danger muted */
-          background: rgba(191, 130, 134, 0.05); 
+          border-color: rgba(255, 75, 75, 0.3); /* Danger subtle */
+          background: rgba(255, 75, 75, 0.05); 
         }
         .kpi-icon { 
           font-size: 1.4rem; 
@@ -95,25 +95,25 @@ export default function MetricsCards({ metrics, threshold }) {
         }
         .kpi-value { 
           font-size: 1.6rem; 
-          font-weight: 600; 
-          color: #E4E4E2; /* Primary Text */
+          font-weight: 700; 
+          color: #1A1A1C; /* Dark Charcoal Text */
           letter-spacing: -0.5px; 
         }
         .kpi-label { 
           font-size: 0.75rem; 
-          color: #A8A8AA; /* Secondary Text */
+          color: #666666; /* Secondary Text */
           text-transform: uppercase; 
           letter-spacing: 0.5px; 
-          font-weight: 500; 
+          font-weight: 600; 
         }
         .kpi-sub { 
           font-size: 0.8rem; 
-          color: #7A7A7D; /* Tertiary */
+          color: #888888; /* Tertiary */
           margin-top: 4px;
         }
         .kpi-card.kpi-warn .kpi-value, 
         .kpi-card.kpi-warn .kpi-icon { 
-          color: #BF8286; /* Danger */
+          color: #D32F2F; /* Vibrant Danger Text */
         }
       `}</style>
     </motion.div>

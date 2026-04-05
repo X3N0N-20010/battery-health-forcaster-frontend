@@ -50,18 +50,18 @@ export default function Navbar() {
           justify-content: space-between;
           padding: 0 40px; 
           height: 64px;
-          background: rgba(48, 48, 52, 0.75);
-          backdrop-filter: blur(12px);
-          border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+          background: #FF4B4B;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+          box-shadow: 0 2px 12px rgba(0,0,0,0.05);
         }
         
         .nb-left { display: flex; align-items: center; gap: 12px; }
-        .nb-logo { height: 32px; filter: grayscale(1) opacity(0.8); object-fit: contain; }
+        .nb-logo { height: 32px; filter: brightness(0) invert(1); object-fit: contain; }
         
         .nb-brand { 
           font-size: 1.1rem; 
-          font-weight: 600; 
-          color: #E4E4E2;
+          font-weight: 700; 
+          color: #FFFFFF;
           letter-spacing: -0.2px; 
         }
         
@@ -72,22 +72,21 @@ export default function Navbar() {
           border-radius: 6px;
           background: transparent; 
           border: none;
-          color: #A8A8AA;
+          color: rgba(255, 255, 255, 0.8);
           font-size: 0.9rem; 
-          font-weight: 500;
+          font-weight: 600;
           cursor: pointer;
           transition: all 0.2s ease;
         }
         
         .nb-link:hover { 
-          color: #E4E4E2; 
-          background: rgba(255, 255, 255, 0.04);
+          color: #FF4B4B; 
+          background: #FFFFFF;
         }
         
         .nb-link.active { 
-          color: #7C98B6;
-          background: rgba(124, 152, 182, 0.1); 
-          font-weight: 600; 
+          color: #FF4B4B;
+          background: #FFFFFF; 
         }
       `}</style>
     </>

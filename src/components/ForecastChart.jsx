@@ -28,17 +28,17 @@ const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
   return (
     <div style={{
-      background: "#38383D", /* Elevated Surface */
-      border: "1px solid #444449",
+      background: "#FFFFFF", /* Clean White Surface */
+      border: "1px solid #EAEAEA",
       borderRadius: 8, 
       padding: "12px 16px", 
       fontSize: 13,
-      boxShadow: "0px 8px 24px rgba(15, 15, 18, 0.4)"
+      boxShadow: "0px 8px 24px rgba(0, 0, 0, 0.1)" /* Soft Shadow */
     }}>
-      <p style={{ color: "#A8A8AA", marginBottom: 6, fontWeight: 500 }}>Cycle {label}</p>
+      <p style={{ color: "#666666", marginBottom: 6, fontWeight: 600 }}>Cycle {label}</p>
       {payload.map(p => (
         p.value !== undefined && (
-          <p key={p.name} style={{ color: p.color || "#E4E4E2", margin: "4px 0", fontWeight: 500 }}>
+          <p key={p.name} style={{ color: p.color || "#333333", margin: "4px 0", fontWeight: 600 }}>
             {p.name}: {typeof p.value === "number" ? p.value.toFixed(3) + "%" : p.value}
           </p>
         )
@@ -55,30 +55,30 @@ export default function ForecastChart({ data, threshold }) {
     <div style={{ width: "100%", height: 420 }}>
       <ResponsiveContainer>
         <ComposedChart data={chartData} margin={{ top: 16, right: 24, bottom: 8, left: 0 }}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#444449" opacity={0.5} />
+          <CartesianGrid strokeDasharray="3 3" stroke="#EAEAEA" />
           <XAxis
             dataKey="cycle"
-            tick={{ fill: "#A8A8AA", fontSize: 12 }}
-            axisLine={{ stroke: "#444449" }}
+            tick={{ fill: "#666666", fontSize: 12, fontWeight: 500 }}
+            axisLine={{ stroke: "#CCCCCC" }}
             tickLine={false}
-            label={{ value: "Cycle", position: "insideBottom", offset: -4, fill: "#A8A8AA", fontSize: 12 }}
+            label={{ value: "Cycle", position: "insideBottom", offset: -4, fill: "#666666", fontSize: 12, fontWeight: 600 }}
           />
           <YAxis
             domain={["auto", "auto"]}
-            tick={{ fill: "#A8A8AA", fontSize: 12 }}
-            axisLine={{ stroke: "#444449" }}
+            tick={{ fill: "#666666", fontSize: 12, fontWeight: 500 }}
+            axisLine={{ stroke: "#CCCCCC" }}
             tickLine={false}
             tickFormatter={v => `${v}%`}
           />
           <Tooltip content={<CustomTooltip />} />
           <Legend
-            wrapperStyle={{ color: "#A8A8AA", fontSize: 13, paddingTop: 12 }}
+            wrapperStyle={{ color: "#666666", fontSize: 13, paddingTop: 12, fontWeight: 500 }}
           />
 
           <Area
             dataKey="confBand"
             name="±1σ Confidence"
-            fill="rgba(124, 152, 182, 0.15)" /* Primary Accent low opacity */
+            fill="rgba(255, 75, 75, 0.1)" /* Light primary color fill */
             stroke="none"
             connectNulls={false}
             legendType="none"
@@ -86,28 +86,28 @@ export default function ForecastChart({ data, threshold }) {
 
           <ReferenceLine
             y={threshPct}
-            stroke="#BF8286" /* Danger */
+            stroke="#D32F2F" /* Vibrant Danger */
             strokeDasharray="6 3"
             strokeWidth={1.5}
-            label={{ value: `Threshold ${threshPct}%`, fill: "#BF8286", fontSize: 11, position: "insideTopRight" }}
+            label={{ value: `Threshold ${threshPct}%`, fill: "#D32F2F", fontSize: 11, fontWeight: 600, position: "insideTopRight" }}
           />
 
-          {/* Historical SOH - Soft Pearl */}
+          {/* Historical SOH - Deep Charcoal */}
           <Line
             dataKey="historical"
             name="Historical SOH"
-            stroke="#E4E4E2"
+            stroke="#1A1A1C"
             strokeWidth={2.5}
             dot={false}
             connectNulls={false}
           />
 
-          {/* Predicted SOH - Dusty Slate Blue */}
+          {/* Predicted SOH - Vibrant Coral/Red */}
           <Line
             dataKey="predicted"
             name="Predicted SOH"
-            stroke="#7C98B6"
-            strokeWidth={2}
+            stroke="#FF4B4B"
+            strokeWidth={2.5}
             dot={false}
             strokeDasharray="5 3"
             connectNulls={false}

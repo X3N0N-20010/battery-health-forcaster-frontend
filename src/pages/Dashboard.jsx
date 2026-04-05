@@ -72,7 +72,7 @@ function RawDataTab({ data, threshold }) {
               <td><span className={`badge ${r.region === "Historical" ? "badge-neutral" : "badge-outline"}`}>{r.region}</span></td>
               <td>{r.predicted.toFixed(5)}</td>
               <td>{r.observed !== null ? r.observed.toFixed(5) : "—"}</td>
-              <td>{r.below ? <span className="badge badge-danger">Yes</span> : <span style={{ color: "#7A7A7D" }}>No</span>}</td>
+              <td>{r.below ? <span className="badge badge-danger">Yes</span> : <span style={{ color: "#888888" }}>No</span>}</td>
             </tr>
           ))}
         </tbody>
@@ -487,7 +487,7 @@ export default function Dashboard() {
                         <p><span>Model</span><span>{selectedModel}</span></p>
                         <p><span>Observed Cycles</span><span>{result.historical_soh.length}</span></p>
                         <p><span>Forecast Cycles</span><span>{result.metrics.n_forecast}</span></p>
-                        <p><span>Failure Detected</span><span style={{ color: result.metrics.failed ? "#BF8286" : "#86A789" }}>{result.metrics.failed ? "YES ⚠️" : "NO ✅"}</span></p>
+                        <p><span>Failure Detected</span><span style={{ color: result.metrics.failed ? "#D32F2F" : "#2E7D32" }}>{result.metrics.failed ? "YES ⚠️" : "NO ✅"}</span></p>
                         <p><span>Last SOH</span><span>{(result.metrics.current_soh * 100).toFixed(4)}%</span></p>
                         <p><span>Min Forecast SOH</span><span>{(result.metrics.min_forecast_soh * 100).toFixed(4)}%</span></p>
                         <p><span>Degradation Rate</span><span>{(result.metrics.degradation_rate * 100).toFixed(6)}%/cycle</span></p>
@@ -520,8 +520,8 @@ export default function Dashboard() {
 
         .dash-root {
           min-height: 100vh;
-          background: #28282B; /* Base Background */
-          color: #E4E4E2;
+          background: #F8F9FA; /* Base Background Light Gray */
+          color: #1A1A1C;
           font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         }
 
@@ -532,23 +532,23 @@ export default function Dashboard() {
         }
 
         .dash-section {
-          background: #303034; /* Surface / Card */
-          border: 1px solid rgba(255, 255, 255, 0.03); 
+          background: #FFFFFF; /* Surface / Card */
+          border: 1px solid #EAEAEA; 
           border-radius: 12px;
           padding: 36px;
-          box-shadow: 0px 8px 24px rgba(15, 15, 18, 0.2); 
+          box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05); 
         }
 
         .section-heading {
-          font-size: 1.25rem; font-weight: 600;
-          color: #E4E4E2; letter-spacing: -0.5px;
+          font-size: 1.25rem; font-weight: 700;
+          color: #1A1A1C; letter-spacing: -0.5px;
           margin-bottom: 24px;
         }
 
         /* --- Quick Guide Panel Improvements --- */
         .guide-panel { 
           padding: 28px 36px; 
-          background: linear-gradient(145deg, #303034 0%, #2b2b2f 100%);
+          background: linear-gradient(145deg, #FFFFFF 0%, #F8F9FA 100%);
         }
         .guide-header {
           display: flex; align-items: center; gap: 12px; margin-bottom: 24px;
@@ -560,22 +560,22 @@ export default function Dashboard() {
           gap: 24px;
         }
         .guide-card {
-          background: #242427; /* Darker recess for cards */
-          border: 1px solid rgba(255, 255, 255, 0.04);
+          background: #FFFFFF;
+          border: 1px solid #EAEAEA;
           border-radius: 10px;
           padding: 24px;
-          box-shadow: inset 0 2px 10px rgba(0,0,0,0.1);
+          box-shadow: 0 2px 10px rgba(0,0,0,0.02);
         }
         .guide-title { 
-          font-size: 1rem; font-weight: 600; color: #7C98B6; 
+          font-size: 1rem; font-weight: 600; color: #FF4B4B; 
           margin-bottom: 16px; letter-spacing: -0.2px;
         }
         
-        .guide-reqs p { font-size: 0.85rem; color: #E4E4E2; margin-bottom: 8px; line-height: 1.6;}
-        .text-muted { color: #7A7A7D; font-size: 0.85rem; }
+        .guide-reqs p { font-size: 0.85rem; color: #333333; margin-bottom: 8px; line-height: 1.6;}
+        .text-muted { color: #888888; font-size: 0.85rem; }
         code { 
-          background: rgba(124, 152, 182, 0.15); 
-          color: #8BA8C7; 
+          background: #F1F3F5; 
+          color: #FF4B4B; 
           padding: 3px 6px; 
           border-radius: 4px; 
           font-size: 0.8rem; 
@@ -583,7 +583,7 @@ export default function Dashboard() {
           white-space: nowrap;
         }
         .guide-note { 
-          font-size: 0.8rem; color: #A8A8AA; 
+          font-size: 0.8rem; color: #888888; 
           margin-top: 12px; font-style: italic; 
           line-height: 1.4;
         }
@@ -594,43 +594,43 @@ export default function Dashboard() {
         .guide-steps { list-style: none; display: flex; flex-direction: column; gap: 14px; }
         .guide-steps li { 
           display: flex; align-items: flex-start; gap: 12px; 
-          font-size: 0.9rem; color: #A8A8AA; line-height: 1.4;
+          font-size: 0.9rem; color: #666666; line-height: 1.4;
         }
-        .guide-steps li strong { color: #E4E4E2; }
+        .guide-steps li strong { color: #1A1A1C; }
         .step-badge {
           flex-shrink: 0;
           display: flex; align-items: center; justify-content: center;
           width: 20px; height: 20px; border-radius: 50%;
-          background: #38383D; color: #7C98B6; 
+          background: #FF4B4B; color: #FFFFFF; 
           font-size: 0.75rem; font-weight: 700;
         }
 
         .guide-defs { display: flex; flex-direction: column; gap: 16px; }
-        .def-item strong { display: block; font-size: 0.9rem; color: #E4E4E2; margin-bottom: 4px; }
-        .def-item p { font-size: 0.85rem; color: #A8A8AA; line-height: 1.5; }
+        .def-item strong { display: block; font-size: 0.9rem; color: #1A1A1C; margin-bottom: 4px; }
+        .def-item p { font-size: 0.85rem; color: #666666; line-height: 1.5; }
         /* -------------------------------------- */
 
 
         /* Upload */
         .upload-zone {
-          border: 1px dashed #444449;
+          border: 1px dashed #CCCCCC;
           border-radius: 8px; padding: 48px 24px;
           text-align: center; cursor: pointer;
-          transition: all 0.2s; background: #28282B;
+          transition: all 0.2s; background: #FAFAFA;
         }
         .upload-zone:hover, .upload-zone.drag-over {
-          border-color: #7C98B6;
-          background: rgba(124, 152, 182, 0.05);
+          border-color: #FF4B4B;
+          background: #FFF0F0;
         }
         .upload-icon  { font-size: 2.4rem; margin-bottom: 12px; }
-        .upload-hint  { font-size: 1rem; color: #A8A8AA; }
-        .upload-link  { color: #7C98B6; font-weight: 500; text-decoration: none;}
-        .upload-filename { color: #7C98B6; font-weight: 600; font-size: 1rem; margin-bottom: 4px; }
-        .upload-sub   { font-size: 0.8rem; color: #7A7A7D; margin-top: 8px; }
+        .upload-hint  { font-size: 1rem; color: #666666; }
+        .upload-link  { color: #FF4B4B; font-weight: 600; text-decoration: none;}
+        .upload-filename { color: #1A1A1C; font-weight: 600; font-size: 1rem; margin-bottom: 4px; }
+        .upload-sub   { font-size: 0.8rem; color: #888888; margin-top: 8px; }
 
         /* Preview */
         .preview-wrap  { margin-top: 20px; }
-        .preview-label { font-size: 0.8rem; color: #A8A8AA; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500;}
+        .preview-label { font-size: 0.8rem; color: #666666; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;}
 
         /* Controls */
         .controls-row {
@@ -640,38 +640,38 @@ export default function Dashboard() {
         }
         .thresh-label {
           display: flex; align-items: center; gap: 10px;
-          font-size: 0.9rem; color: #A8A8AA; font-weight: 400;
+          font-size: 0.9rem; color: #333333; font-weight: 500;
         }
         .thresh-input {
           width: 80px; padding: 8px 12px;
-          background: #28282B; 
-          border: 1px solid #444449;
-          border-radius: 8px; color: #E4E4E2; font-size: 0.9rem; outline: none;
+          background: #FFFFFF; 
+          border: 1px solid #CCCCCC;
+          border-radius: 8px; color: #1A1A1C; font-size: 0.9rem; outline: none;
           transition: border-color 0.2s, box-shadow 0.2s;
         }
         .thresh-input:focus { 
-          border-color: #7C98B6; 
-          box-shadow: 0 0 0 3px rgba(124, 152, 182, 0.25); 
+          border-color: #FF4B4B; 
+          box-shadow: 0 0 0 3px rgba(255, 75, 75, 0.15); 
         }
-        .thresh-pct { color: #7C98B6; font-weight: 600; }
+        .thresh-pct { color: #FF4B4B; font-weight: 700; }
 
         .run-btn {
           margin-left: auto;
           padding: 12px 28px; border-radius: 8px;
-          background: #7C98B6; 
-          color: #1A1A1C; font-size: 0.95rem; font-weight: 600;
+          background: #FF4B4B; 
+          color: #FFFFFF; font-size: 0.95rem; font-weight: 600;
           border: none; cursor: pointer;
           display: inline-flex; align-items: center; gap: 10px;
           transition: background 0.2s, transform 0.1s;
         }
-        .run-btn:hover { background: #8BA8C7; }
-        .run-btn:active { background: #6E88A3; transform: scale(0.98); }
+        .run-btn:hover { background: #E63E3E; }
+        .run-btn:active { transform: scale(0.98); }
         .run-btn.loading, .run-btn.disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
         .spinner {
           width: 16px; height: 16px; border-radius: 50%;
-          border: 2px solid rgba(26,26,28,0.3);
-          border-top-color: #1A1A1C;
+          border: 2px solid rgba(255, 255, 255, 0.4);
+          border-top-color: #FFFFFF;
           animation: spin 0.7s linear infinite;
           display: inline-block;
         }
@@ -680,13 +680,13 @@ export default function Dashboard() {
         /* Error / Info */
         .error-box {
           margin-top: 20px; padding: 14px 18px;
-          background: rgba(191, 130, 134, 0.1); border: 1px solid rgba(191, 130, 134, 0.3);
-          border-radius: 8px; color: #BF8286; font-size: 0.9rem; font-weight: 500;
+          background: #FFEBEE; border: 1px solid #FFCDD2;
+          border-radius: 8px; color: #D32F2F; font-size: 0.9rem; font-weight: 600;
         }
         .info-box {
           margin-bottom: 20px; padding: 14px 18px;
-          background: rgba(124, 152, 182, 0.1); border: 1px solid rgba(124, 152, 182, 0.3);
-          border-radius: 8px; color: #7C98B6; font-size: 0.9rem;
+          background: #F1F3F5; border: 1px solid #EAEAEA;
+          border-radius: 8px; color: #333333; font-size: 0.9rem; font-weight: 500;
         }
 
         /* Status banner */
@@ -695,28 +695,29 @@ export default function Dashboard() {
           padding: 20px 24px; border-radius: 12px;
           margin-bottom: 8px;
         }
-        .status-ok   { background: rgba(134, 167, 137, 0.1); border: 1px solid rgba(134, 167, 137, 0.3); }
-        .status-fail { background: rgba(191, 130, 134, 0.1); border: 1px solid rgba(191, 130, 134, 0.3); }
+        .status-ok   { background: #E8F5E9; border: 1px solid #C8E6C9; }
+        .status-fail { background: #FFEBEE; border: 1px solid #FFCDD2; }
         .status-icon { font-size: 1.8rem; }
-        .status-title { font-size: 1rem; font-weight: 600; color: #E4E4E2; margin-bottom: 4px; }
-        .status-sub   { font-size: 0.85rem; color: #A8A8AA; line-height: 1.5; }
+        .status-title { font-size: 1rem; font-weight: 700; margin-bottom: 4px; color: #1A1A1C;}
+        .status-fail .status-title { color: #C62828; }
+        .status-ok .status-title { color: #2E7D32; }
+        .status-sub   { font-size: 0.85rem; color: #666666; line-height: 1.5; }
 
         /* Tabs */
         .tabs-bar {
           display: flex; gap: 8px; flex-wrap: wrap;
-          border-bottom: 1px solid #444449;
+          border-bottom: 1px solid #EAEAEA;
           margin-bottom: 24px;
         }
         .tab-btn {
           padding: 12px 20px;
           background: transparent; border: none;
-          color: #A8A8AA; font-size: 0.9rem; font-weight: 500; cursor: pointer;
+          color: #666666; font-size: 0.9rem; font-weight: 600; cursor: pointer;
           transition: all 0.2s; border-bottom: 2px solid transparent;
         }
-        .tab-btn:hover { color: #E4E4E2; background: rgba(255,255,255,0.04); }
+        .tab-btn:hover { color: #1A1A1C; background: #F8F9FA; }
         .tab-btn.tab-active {
-          color: #7C98B6; border-bottom: 2px solid #7C98B6;
-          font-weight: 600;
+          color: #FF4B4B; border-bottom: 2px solid #FF4B4B;
         }
         .tab-content { min-height: 300px; }
 
@@ -724,56 +725,56 @@ export default function Dashboard() {
         .metrics-detail { display: flex; flex-direction: column; gap: 0; }
         .metrics-detail p {
           display: flex; justify-content: space-between; align-items: center;
-          padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.03);
+          padding: 14px 0; border-bottom: 1px solid #EAEAEA;
           font-size: 0.95rem;
         }
-        .metrics-detail p span:first-child { color: #A8A8AA; font-weight: 400; }
-        .metrics-detail p span:last-child  { color: #E4E4E2; font-weight: 500; }
+        .metrics-detail p span:first-child { color: #666666; font-weight: 500; }
+        .metrics-detail p span:last-child  { color: #1A1A1C; font-weight: 600; }
 
         /* Table */
-        .table-wrap { overflow-x: auto; border: 1px solid #444449; border-radius: 8px; background: #28282B;}
+        .table-wrap { overflow-x: auto; border: 1px solid #EAEAEA; border-radius: 8px; background: #FFFFFF;}
         .data-table {
           width: 100%; border-collapse: collapse;
           font-size: 0.85rem;
         }
         .data-table th {
           text-align: left; padding: 12px 16px;
-          color: #A8A8AA; font-weight: 500; font-size: 0.75rem;
+          color: #666666; font-weight: 600; font-size: 0.75rem;
           text-transform: uppercase; letter-spacing: 0.5px;
-          border-bottom: 1px solid #444449;
-          background: #38383D;
+          border-bottom: 1px solid #EAEAEA;
+          background: #F8F9FA;
         }
         .data-table td {
-          padding: 12px 16px; color: #E4E4E2;
-          border-bottom: 1px solid #444449;
+          padding: 12px 16px; color: #333333;
+          border-bottom: 1px solid #EAEAEA;
         }
-        .data-table tr.row-warn td { background: rgba(191, 130, 134, 0.08); color: #BF8286; }
-        .data-table tr:hover td   { background: rgba(255,255,255,0.03); }
+        .data-table tr.row-warn td { background: #FFEBEE; color: #D32F2F; font-weight: 500; }
+        .data-table tr:hover td   { background: #FAFAFA; }
 
         .badge {
           display: inline-block; padding: 4px 10px;
-          border-radius: 6px; font-size: 0.75rem; font-weight: 500;
+          border-radius: 6px; font-size: 0.75rem; font-weight: 600;
         }
-        .badge-neutral { background: rgba(124, 152, 182, 0.15); color: #7C98B6; }
-        .badge-outline { background: transparent; color: #A8A8AA; border: 1px solid #444449;}
-        .badge-danger  { background: rgba(191, 130, 134, 0.15); color: #BF8286; }
+        .badge-neutral { background: #F1F3F5; color: #666666; }
+        .badge-outline { background: transparent; color: #666666; border: 1px solid #CCCCCC;}
+        .badge-danger  { background: #FFEBEE; color: #C62828; }
 
         /* Export */
         .export-btn {
           padding: 12px 24px; border-radius: 8px;
-          background: #7C98B6;
-          color: #1A1A1C; font-size: 0.95rem; font-weight: 600;
+          background: #FF4B4B;
+          color: #FFFFFF; font-size: 0.95rem; font-weight: 600;
           border: none; cursor: pointer; transition: background 0.2s, transform 0.1s;
           display: inline-block;
         }
-        .export-btn:hover { background: #8BA8C7; }
-        .export-btn:active { background: #6E88A3; transform: scale(0.98); }
+        .export-btn:hover { background: #E63E3E; }
+        .export-btn:active { transform: scale(0.98); }
         .export-btn.ghost {
           background: transparent;
-          border: 1px solid #444449;
-          color: #E4E4E2;
+          border: 1px solid #CCCCCC;
+          color: #333333;
         }
-        .export-btn.ghost:hover { background: #38383D; border-color: #525258; }
+        .export-btn.ghost:hover { background: #F8F9FA; border-color: #1A1A1C; color: #1A1A1C; }
 
         @media (max-width: 640px) {
           .dash-body { padding: 24px 16px 60px; }
