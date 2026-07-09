@@ -17,7 +17,6 @@ const PERFORMANCE_PLOTS = [
   "/plot1.png",
   "/plot3.png",
   "/plot2.png",
-
 ];
 
 // ---- Dataset/Database Config ----
@@ -27,30 +26,40 @@ const DATASETS = [
     title: "Experimental",
     description: "High-fidelity lab data for training and validating predictive models.",
     icon: "🧪",
-    models: ["CNN-GRU_attn"], 
+    models: ["CNN-GRU_attn", "CNN-LSTM"],
   },
   {
     key: "physics",
     title: "Physics-Based",
     description: "Synthetic data from simulations to enhance model generalization and interpretability.",
     icon: "⚛️",
-    models: ["CNN-GRU_attn"],
+    models: ["CNN-GRU_attn", "CNN-LSTM"], 
   },
   {
     key: "bms",
     title: "BMS",
     description: "Real-world operational data enabling robust, deployment-ready predictions.",
     icon: "🔋",
-    models: ["CNN-GRU_attn"],
+    models: ["CNN-GRU_attn", "CNN-LSTM"], 
   },
   {
     key: "circular",
     title: "Circular Economy",
     description: "Lifecycle datasets supporting sustainability-aware and end-of-life predictions.",
     icon: "♻️",
-    models: ["CNN-GRU_attn"],
+    models: ["CNN-GRU_attn", "CNN-LSTM"], 
   },
 ];
+
+// ---- Model Descriptions ----
+const MODEL_INFO = {
+  "CNN-GRU_attn": {
+    desc: "An optimized architecture designed for high-precision forecasting. It pairs a Gated Recurrent Unit (GRU) for temporal modeling with an Attention mechanism that 'hyper-focuses' on specific moments of battery degradation to better capture imminent capacity drops.\n\n➡️ Look at the Dashboard for a visual architecture diagram and more detailed info."
+  },
+  "CNN-LSTM": {
+    desc: "A robust fusion model designed for stable State of Health (SOH) estimation. It combines convolutional feature extraction with Long Short-Term Memory (LSTM) networks to identify long-term temporal dependencies and aging trends across continuous battery life-cycles.\n\n➡️ Look at the Dashboard for a visual architecture diagram and more detailed info."
+  }
+};
 
 const features = [
   {
@@ -94,7 +103,6 @@ export default function LandingPage() {
   };
 
   const handleRun = () => {
-    // Navigate to dashboard and pass the file (if any), architecture, and dataset via state
     navigate("/dashboard", { 
       state: { 
         file: file, 
@@ -104,7 +112,6 @@ export default function LandingPage() {
     });
   };
 
-  // Duplicate array multiple times for a seamless infinite scroll loop
   const carouselItems = [...PERFORMANCE_PLOTS, ...PERFORMANCE_PLOTS, ...PERFORMANCE_PLOTS, ...PERFORMANCE_PLOTS, ...PERFORMANCE_PLOTS];
 
   return (
@@ -113,10 +120,31 @@ export default function LandingPage() {
         <div 
           className="nav-brand-logos" 
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} 
-          style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: "16px" }}
+          style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: "24px" }}
         >
-          <img src="/anrf-logo.jpeg" alt="ANRF" style={{ height: "40px" }} />
-          <img src="/iit-bhu-logo.jpeg" alt="IIT BHU" style={{ height: "40px" }} />
+          <img src="/anrf-logo.jpeg" alt="ANRF" style={{ height: "80px" }} />
+          <img src="/iit-bhu-logo.jpeg" alt="IIT BHU" style={{ height: "80px" }} />
+        </div>
+        
+        {/* BHAI Logo - Top Right Shortcut to Dataset */}
+        <div 
+          className="nav-bhai-logo"
+          onClick={handleScrollDown}
+          style={{ cursor: "pointer", display: "flex", alignItems: "center" }}
+          title="Jump to Datasets"
+        >
+          <img 
+            src="/bhai-logo.png" 
+            alt="BHAI Indicator" 
+            style={{ 
+              height: "70px", 
+              objectFit: "contain", 
+              mixBlendMode: "multiply",
+              transition: "transform 0.2s ease",
+            }} 
+            onMouseOver={(e) => e.currentTarget.style.transform = "scale(1.05)"}
+            onMouseOut={(e) => e.currentTarget.style.transform = "scale(1)"}
+          />
         </div>
       </nav>
 
@@ -124,7 +152,6 @@ export default function LandingPage() {
       <section className="hero-section">
         <div className="hero-bg-glow" />
         
-        {/* Left Side: Text Content */}
         <motion.div
           className="hero-content"
           variants={stagger}
@@ -140,9 +167,12 @@ export default function LandingPage() {
           </motion.div>
 
           <motion.h1 variants={fadeUp} className="hero-title">
-            Battery Health <br />
-            <span className="hero-accent">Forecaster</span>
+            <span className="hero-accent">BHAI</span>
           </motion.h1>
+          
+          <motion.p variants={fadeUp} className="hero-subtitle-small">
+            Battery Health Analysis Indicator
+          </motion.p>
 
           <motion.div variants={fadeUp} className="intro-block">
             <p className="hero-sub">
@@ -167,34 +197,21 @@ export default function LandingPage() {
           transition={{ duration: 1, delay: 0.4, ease: "easeOut" }}
           style={{ 
             display: "flex", 
-            flexDirection: "row", // Changed to row for side-by-side
+            flexDirection: "column", 
             alignItems: "center", 
-            gap: "24px", 
+            justifyContent: "center",
             width: "100%", 
-            maxWidth: "680px" // Increased to fit both side-by-side 
+            maxWidth: "680px" 
           }}
         >
-          {/* Seamless Infinite Horizontal Carousel FIRST */}
-          <div className="plots-carousel-wrapper">
+          {/* Seamless Infinite Horizontal Carousel */}
+          <div className="plots-carousel-wrapper" style={{ width: "100%" }}>
             <div className="plots-track">
               {carouselItems.map((plot, idx) => (
                 <img key={idx} src={plot} alt={`Performance Plot ${idx}`} className="plot-item" />
               ))}
             </div>
           </div>
-
-          {/* BHAI Logo SECOND (Right side) */}
-          <img 
-            src="/bhai-logo.png" 
-            alt="BHAI Indicator" 
-            style={{ 
-              width: "130px", 
-              flexShrink: 0, // Prevents logo from getting squished by the plots
-              objectFit: "contain", 
-              mixBlendMode: "multiply", 
-              filter: "drop-shadow(0px 4px 8px rgba(0,0,0,0.05))" 
-            }} 
-          />
         </motion.div>
       </section>
 
@@ -299,12 +316,31 @@ export default function LandingPage() {
                 <label className="action-label">Upload CSV Data (Optional)</label>
                 <input type="file" accept=".csv" onChange={handleFileChange} className="action-input file-input" />
 
-                <label className="action-label">Select Model Architecture</label>
-                <select value={selectedArchitecture} onChange={(e) => setSelectedArchitecture(e.target.value)} className="action-input">
-                  {selectedDataset.models.map((m) => (
-                    <option key={m} value={m}>{m}</option>
-                  ))}
-                </select>
+                 {/* The ? Hover Icon */}
+                  <label className="action-label">Select Model Architecture</label>
+                
+                {/* --- DROPDOWN & TOOLTIP IN ONE ROW --- */}
+                <div style={{ display: "flex", alignItems: "center", gap: "12px", width: "100%", zIndex: 10 }}>
+                  <select 
+                    value={selectedArchitecture} 
+                    onChange={(e) => setSelectedArchitecture(e.target.value)} 
+                    className="action-input"
+                    style={{ flex: 1 }} 
+                  >
+                    {selectedDataset.models.map((m) => (
+                      <option key={m} value={m}>{m}</option>
+                    ))}
+                  </select>
+
+                  {/* The ? Hover Icon */}
+                  <div className="model-tooltip-wrap">
+                    <span className="model-info-icon">?</span>
+                    <div className="model-tooltip-content" style={{ bottom: "150%", left: "auto", right: "0", transform: "translateY(10px)" }}>
+                      {MODEL_INFO[selectedArchitecture]?.desc || "Select a model to see its description."}
+                    </div>
+                  </div>
+                </div>
+                {/* ------------------------------------- */}
 
                 <button onClick={handleRun} className="action-run-btn primary-glow">
                   Proceed to Dashboard →
@@ -329,7 +365,7 @@ export default function LandingPage() {
       {/* FOOTER */}
       <footer className="landing-footer alt-bg">
         <div className="footer-inner">
-          <p className="footer-title">Battery Health Forecaster</p>
+          <p className="footer-title">Battery Health Analysis Indicator</p>
           <p className="footer-name">Indian Institute of Technology (BHU), Varanasi</p>
         </div>
       </footer>
@@ -360,7 +396,7 @@ export default function LandingPage() {
           background: linear-gradient(135deg, #EBE0E4 0%, #FAFAFA 100%); 
           border-bottom: 1px solid rgba(138, 43, 73, 0.1); 
           position: relative; overflow: hidden;
-          gap: 40px; /* Reduced from 60px to give more room for side-by-side layout */
+          gap: 40px; 
         }
         .hero-bg-glow {
           position: absolute; top: -200px; left: -200px;
@@ -369,21 +405,34 @@ export default function LandingPage() {
           pointer-events: none;
         }
         .hero-content { 
-          max-width: 480px; /* Reduced from 650px to make room for side-by-side right side */
+          max-width: 480px; 
           z-index: 1; 
           flex-shrink: 0;
         }
 
         .hero-title {
-          font-size: clamp(2.2rem, 5vw, 4rem);
-          font-weight: 700; 
-          line-height: 1.1;
-          letter-spacing: -1.5px; margin-bottom: 24px;
+          font-size: clamp(2.5rem, 5vw, 4rem);
+          font-weight: 600; 
+          line-height: 1;
+          letter-spacing: -1.5px; 
+          margin-bottom: 24px;
           color: #2D3748; 
         }
         .hero-accent { 
           color: #8A2B49; 
-          border-bottom: 4px solid #8A2B49;
+          text-decoration: underline;
+          text-decoration-thickness: 4px;
+          text-underline-offset: 2px;
+        }
+        
+        .hero-subtitle-small {
+          font-size: 1.05rem;
+          color: #666666;
+          font-weight: 600;
+          letter-spacing: 1px;
+          margin-top: -16px;
+          margin-bottom: 24px;
+          text-transform: uppercase;
         }
         
         .intro-block {
@@ -412,8 +461,8 @@ export default function LandingPage() {
 
         /* ----- PLOTS CAROUSEL ----- */
         .plots-carousel-wrapper {
-          flex: 1; /* Takes up remaining space in row flex layout */
-          min-width: 0; /* Prevents overflow breaking layout */
+          flex: 1; 
+          min-width: 0; 
           overflow: hidden;
           position: relative;
           padding: 20px 0;
@@ -483,7 +532,7 @@ export default function LandingPage() {
         .feat-title { font-size: 1.1rem; font-weight: 600; color: #1A1A1C; margin-bottom: 12px; }
         .feat-desc  { font-size: 0.95rem; color: #666666; line-height: 1.6; }
 
-        /* ACTION VIEW (Inside Database Section) */
+        /* ACTION VIEW */
         .dataset-action-view {
           max-width: 600px; margin: 0 auto; background: #FFFFFF; padding: 48px;
           border-radius: 16px; border: 1px solid #EAEAEA; box-shadow: 0 8px 32px rgba(0,0,0,0.04);
@@ -525,13 +574,79 @@ export default function LandingPage() {
         .footer-name  { font-size: 0.85rem; color: #8A2B49; font-weight: 600; }
 
         @media (max-width: 768px) {
-          .hero-section  { flex-direction: column; padding: 120px 24px 60px; text-align: center; }
+          .hero-section  { flex-direction: column; padding: 140px 24px 60px; text-align: center; }
           .hero-graphic  { display: none; }
           .intro-block   { border-left: none; padding-left: 0; }
           .landing-nav   { padding: 12px 24px; }
           .ecosystem-section, .about-section, .features-section { padding: 60px 24px; }
           .dataset-action-view { padding: 32px 20px; }
           .final-cta     { padding: 60px 24px; }
+        }
+
+        /* --- TOOLTIP STYLES --- */
+        .model-tooltip-wrap {
+          position: relative;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          cursor: help;
+        }
+        
+        .model-info-icon {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 18px;
+          height: 18px;
+          border-radius: 50%;
+          background: #8A2B49;
+          color: #FFFFFF;
+          font-size: 0.75rem;
+          font-weight: 700;
+          opacity: 0.8;
+          transition: opacity 0.2s;
+        }
+        
+        .model-tooltip-wrap:hover .model-info-icon {
+          opacity: 1;
+        }
+
+        .model-tooltip-content {
+          position: absolute;
+          bottom: 150%;
+          left: 50%;
+          transform: translateX(-50%) translateY(10px);
+          width: 280px;
+          background: #1A1A1C;
+          color: #F9F0F3;
+          padding: 14px 16px;
+          border-radius: 8px;
+          font-size: 0.85rem;
+          line-height: 1.5;
+          opacity: 0;
+          visibility: hidden;
+          transition: all 0.2s ease;
+          box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+          pointer-events: none;
+          white-space: pre-wrap; /* Preserves the line breaks */
+        }
+
+        /* The little triangle pointer at the bottom of the tooltip */
+        .model-tooltip-content::after {
+          content: '';
+          position: absolute;
+          top: 100%;
+          left: 50%;
+          margin-left: -6px;
+          border-width: 6px;
+          border-style: solid;
+          border-color: #1A1A1C transparent transparent transparent;
+        }
+
+        .model-tooltip-wrap:hover .model-tooltip-content {
+          opacity: 1;
+          visibility: visible;
+          transform: translateX(-50%) translateY(0);
         }
       `}</style>
     </div>
